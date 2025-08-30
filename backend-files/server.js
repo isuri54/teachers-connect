@@ -5,6 +5,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 require('dotenv').config();
 import createGroupRoutes from "./routes/createGroup";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 const server = http.createServer(app);
@@ -26,6 +27,7 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/messages", require("./routes/messages"));
 app.use("/api/user", require("./models/user"));
 app.use("/api/groups", createGroupRoutes);
+app.use("/api/users", userRoutes);
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
