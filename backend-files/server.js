@@ -4,9 +4,9 @@ const cors = require('cors');
 const http = require("http");
 const { Server } = require("socket.io");
 require('dotenv').config();
-import createGroupRoutes from "./routes/createGroup";
-import userRoutes from "./routes/userRoutes";
-import resources from "./routes/resources";
+const createGroup = require("./routes/createGroup");
+const userRoutes = require("./routes/userRoutes");
+const resources = require("./routes/resources");
 
 const app = express();
 const server = http.createServer(app);
@@ -27,7 +27,7 @@ app.use("/api/posts", require("./routes/posts"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/messages", require("./routes/messages"));
 app.use("/api/user", require("./models/user"));
-app.use("/api/groups", createGroupRoutes);
+app.use("/api/groups", createGroup);
 app.use("/api/users", userRoutes);
 app.use("/api/resources", resources);
 
