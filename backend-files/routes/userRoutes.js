@@ -1,5 +1,5 @@
-import express from "express";
-import user from "../models/user";
+const express = require("express");
+const user = require("../models/user");
 
 const router = express.Router();
 
@@ -17,4 +17,4 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

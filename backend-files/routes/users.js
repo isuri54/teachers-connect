@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     avatar: String,
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("Users", UserSchema);
 
 router.get("/", async (req, res) => {
     try {

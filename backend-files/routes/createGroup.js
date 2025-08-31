@@ -1,7 +1,6 @@
-import express from "express";
-import multer from "multer";
-import createGroup from "../models/create-group";
-
+const express = require("express");
+const multer = require("multer");
+const createGroup = require("../models/create-group")
 const router = express.Router();
 
 const storage = multer.diskStorage ({
@@ -35,4 +34,4 @@ router.post("/", upload.single("coverPhoto"), async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;
