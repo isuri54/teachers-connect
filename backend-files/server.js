@@ -7,6 +7,7 @@ require('dotenv').config();
 const createGroup = require("./routes/createGroup");
 const userRoutes = require("./routes/userRoutes");
 const resources = require("./routes/resources");
+const settings = require("./routes/settings");
 
 const app = express();
 const server = http.createServer(app);
@@ -30,6 +31,7 @@ app.use("/api/user", require("./models/user"));
 app.use("/api/groups", createGroup);
 app.use("/api/users", userRoutes);
 app.use("/api/resources", resources);
+app.use("/api/settings", settings);
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
