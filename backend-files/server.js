@@ -4,10 +4,10 @@ const cors = require('cors');
 const http = require("http");
 const { Server } = require("socket.io");
 require('dotenv').config();
-const createGroup = require("./routes/createGroup");
+/*const createGroup = require("./routes/createGroup");
 const userRoutes = require("./routes/userRoutes");
 const resources = require("./routes/resources");
-const settings = require("./routes/settings");
+const settings = require("./routes/settings");*/
 
 const app = express();
 const server = http.createServer(app);
@@ -27,11 +27,9 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/posts", require("./routes/posts"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/messages", require("./routes/messages"));
-app.use("/api/user", require("./models/user"));
-app.use("/api/groups", createGroup);
-app.use("/api/users", userRoutes);
-app.use("/api/resources", resources);
-app.use("/api/settings", settings);
+app.use("/api/groups", require("./routes/createGroup"));
+app.use("/api/resources", require("./routes/resources"));
+app.use("/api/settings", require("./routes/settings"));
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
