@@ -17,6 +17,19 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
+const authenticateToken = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ msg: "No token, authorization denied" });
+
+    try {
+        const decoded = jwt.verify(token, "supersecretkey");
+        req.user = decoded.user;
+        next();
+    } catch (err) {
+        res.status(401).json({ msg: "Token is invalid" });
+    }
+};
+
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -24,7 +37,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.log(err));
 
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/posts", require("./routes/posts"));
+app.use("/api/posts", require("./routes/posts"), authenticateToken);
 app.use("/api/users", require("./routes/users"));
 app.use("/api/messages", require("./routes/messages"));
 app.use("/api/groups", require("./routes/createGroup"));
