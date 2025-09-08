@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { API_BASE_URL } from "@env";
+import Constants from 'expo-constants';
+
 
 type Post = {
     _id: string;
@@ -14,6 +15,7 @@ type Post = {
 export default function HomeScreen() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [newPost, setNewPost] = useState("");
+    const API_BASE_URL = Constants.expoConfig?.extra?.API_BASE_URL ?? 'http://192.168.1.100:5000';
 
     useEffect(() => {
         fetch(`${API_BASE_URL}/api/posts`)
@@ -23,15 +25,20 @@ export default function HomeScreen() {
     }, []);
 
     const handlePost = async () => {
+        const token = "ae2b34ade9b11d3afb9818e3613fcd239cb04fad7aa1939f4e83a28acffbe8010362988ac5460843bfe1a9971bca8986be21171cc58aa52fdfab7e0a923900fc";
         if (!newPost.trim()) return;
 
         try {
             const res = await fetch(`${API_BASE_URL}/api/posts`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ author: "Rosco", content: newPost })
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify({ author: "Rosco", content: newPost }),
             });
             const data = await res.json();
+            console.log("Post response:", data);
             setPosts([data, ...posts]);
             setNewPost("");
         } catch (err) {
