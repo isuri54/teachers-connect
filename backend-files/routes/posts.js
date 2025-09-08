@@ -12,7 +12,7 @@ const PostSchema = new mongoose.Schema({
 
 const Post = mongoose.model("Post", PostSchema);
 
-router.get("/", async (res, req) => {
+router.get("/", async (req, res) => {
     try {
         const posts = await Post.find().sort({crearedAt : -1});
         res.json(posts);
